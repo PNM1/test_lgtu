@@ -1,4 +1,3 @@
-/* Базовые сбросы и переменные */
 * {
     margin: 0;
     padding: 0;
@@ -30,7 +29,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Затемнение фона */
 .overlay {
     display: none;
     position: fixed;
@@ -49,7 +47,6 @@ body {
     opacity: 1;
 }
 
-/* Шапка (header) */
 .header {
     background: white;
     background-image: repeating-linear-gradient(45deg, rgba(139, 90, 43, 0.02) 0px, rgba(139, 90, 43, 0.02) 10px, transparent 10px, transparent 20px);
@@ -69,7 +66,6 @@ body {
     justify-content: space-between;
 }
 
-/* Логотип */
 .logo {
     display: flex;
     align-items: center;
@@ -93,7 +89,6 @@ body {
     opacity: 0.5;
 }
 
-/* Навигационное меню */
 .nav-menu ul {
     display: flex;
     list-style: none;
@@ -111,14 +106,6 @@ body {
     overflow: hidden;
 }
 
-.nav-menu a::before {
-    content: "●";
-    color: var(--primary);
-    position: absolute;
-    left: -20px;
-    opacity: 0;
-    transition: all 0.3s;
-}
 
 .nav-menu a:hover {
     color: var(--primary);
@@ -126,12 +113,6 @@ body {
     padding-left: 1.5rem;
 }
 
-.nav-menu a:hover::before {
-    left: 5px;
-    opacity: 1;
-}
-
-/* Блок профиля */
 .profile-section {
     display: flex;
     align-items: center;
@@ -154,7 +135,7 @@ body {
 }
 
 .profile-btn::before {
-    content: "🐄";
+    content: "🐂";
     font-size: 1.2rem;
     opacity: 0.7;
 }
@@ -167,10 +148,9 @@ body {
 }
 
 .profile-btn:hover::before {
-    content: "🐂";
+    content: "🐄";
 }
 
-/* Основной контент (SPA-секции) */
 .main-content {
     flex: 1;
     max-width: 1200px;
@@ -205,7 +185,6 @@ body {
     }
 }
 
-/* Стили для карточек (заглушки контента) */
 .hero {
     text-align: center;
     padding: 3rem 2rem;
@@ -219,17 +198,6 @@ body {
     align-content: center;
     border: 6px solid var(--secondary);
     position: relative;
-}
-
-.hero::before {
-    content: "🐄 🐂 🐃";
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    opacity: 0.3;
-    letter-spacing: 10px;
 }
 
 .hero::after {
@@ -314,7 +282,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Боковая панель */
 .sidebar {
     position: fixed;
     top: 0;
@@ -326,7 +293,7 @@ body {
     background-size: 60px 60px;
     box-shadow: var(--shadow);
     z-index: 1000;
-    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32,1);
     overflow-y: auto;
     border-left: 8px solid var(--primary);
 }
@@ -374,7 +341,8 @@ body {
     align-items: center; 
     justify-content: center;
     border-radius: 50%;
-    padding-bottom: 0.2rem;
+    padding-bottom: 0.3rem;
+    font-size: 2rem;
 }
 
 .close-sidebar:hover {
@@ -383,7 +351,6 @@ body {
     transform: rotate(90deg);
 }
 
-/* Вкладки аутентификации */
 .auth-tabs {
     display: flex;
     gap: 1rem;
@@ -513,7 +480,6 @@ body {
     opacity: 0.7;
 }
 
-/* Подвал */
 .footer {
     text-align: center;
     padding: 2rem;
@@ -532,7 +498,6 @@ body {
     content: " 🐂";
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
     .header-container {
         flex-wrap: wrap;
@@ -560,7 +525,6 @@ body {
     }
 }
 
-/* Уведомления */
 .notification {
     position: fixed;
     top: 20px;
@@ -585,7 +549,7 @@ body {
 }
 
 .notification.success::before {
-    content: "🐄 ✅ ";
+    content: "";
 }
 
 .notification.error {
@@ -593,7 +557,7 @@ body {
 }
 
 .notification.error::before {
-    content: "🐂 ❌ ";
+    content: "";
 }
 
 .notification.warning {
@@ -601,10 +565,9 @@ body {
 }
 
 .notification.warning::before {
-    content: "🐃 ⚠️ ";
+    content: "⚠️";
 }
 
-/* Ошибки полей */
 .field-error {
     color: #CD5C5C;
     font-size: 0.9rem;
@@ -612,11 +575,6 @@ body {
     margin-left: 15px;
     animation: mooShake 0.4s;
     font-weight: 500;
-}
-
-.field-error::before {
-    content: "🐂 ";
-    font-size: 0.9rem;
 }
 
 @keyframes mooShake {
@@ -645,14 +603,12 @@ input.error:focus {
     box-shadow: 0 0 0 3px rgba(205, 92, 92, 0.1);
 }
 
-/* Состояние загрузки */
 .submit-btn:disabled {
     opacity: 0.7;
     cursor: wait;
     transform: scale(0.98);
 }
 
-/* Индикатор загрузки */
 .loading-spinner {
     display: inline-block;
     width: 24px;
@@ -671,7 +627,6 @@ input.error:focus {
     }
 }
 
-/* Кнопка входа в hero-секции */
 .hero-login-btn {
     background: var(--primary);
     color: white;
@@ -680,7 +635,6 @@ input.error:focus {
     padding: 1rem 3rem;
     font-size: 1.2rem;
     font-weight: 700;
-
     margin-top: 2.5rem;
     transition: all 0.3s;
     box-shadow: 0 8px 20px rgba(139, 90, 43, 0.3);
@@ -688,53 +642,20 @@ input.error:focus {
     overflow: hidden;
 }
 
-.hero-login-btn::before {
-    content: "🐄";
-    position: absolute;
-    left: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.5rem;
-    transition: left 0.3s;
-}
-
 .hero-login-btn:hover {
     background: var(--primary-dark);
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 15px 30px rgba(139, 90, 43, 0.4);
-    padding-left: 4rem;
 }
 
 .hero-login-btn:hover::before {
     left: 20px;
 }
 
-/* Дополнительные коровьи элементы */
 .logo-icon::after {
     content: "🐄";
 }
 
-.nav-menu li:nth-child(odd) a::after {
-    content: " 🐂";
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.nav-menu li:nth-child(odd) a:hover::after {
-    opacity: 0.5;
-}
-
-.nav-menu li:nth-child(even) a::before {
-    content: "🐄 ";
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.nav-menu li:nth-child(even) a:hover::before {
-    opacity: 0.5;
-}
-
-/* Пятнистый фон для hero-секции */
 .hero p {
     font-size: 1.2rem;
     max-width: 600px;

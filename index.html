@@ -7,16 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ШАПКА (HEADER) -->
     <header class="header">
         <div class="header-container">
-            <!-- Логотип -->
             <div class="logo">
                 <span class="logo-icon"></span>
                 <span>MyApp</span>
             </div>
 
-            <!-- Навигационное меню (заглушки) -->
             <nav class="nav-menu">
                 <ul>
                     <li><a href="#" data-page="home">Главная</a></li>
@@ -26,7 +23,6 @@
                 </ul>
             </nav>
 
-            <!-- Кнопка профиля (открывает боковую панель) -->
             <div class="profile-section">
                 <button class="profile-btn" id="profileBtn">
                     <span></span> Профиль
@@ -35,9 +31,7 @@
         </div>
     </header>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ (СЕКЦИИ SPA) -->
     <main class="main-content">
-        <!-- Главная страница -->
         <section id="home" class="page-section active">
             <div class="hero">
                 <h1>Добро пожаловать в MyApp</h1>
@@ -46,7 +40,6 @@
             </div>
         </section>
 
-        <!-- Возможности -->
         <section id="features" class="page-section">
             <h2 style="color: var(--primary); margin-bottom: 1rem;">Наши возможности</h2>
             <div class="cards-grid">
@@ -57,25 +50,21 @@
             </div>
         </section>
 
-        <!-- О нас -->
         <section id="about" class="page-section">
             <h2 style="color: var(--primary);">О компании</h2>
             <p>Мы создаем полезные инструменты с 2023 года.</p>
         </section>
 
-        <!-- Контакты -->
         <section id="contact" class="page-section">
             <h2 style="color: var(--primary);">Контакты</h2>
             <p>Свяжитесь с нами: example@myapp.com</p>
         </section>
     </main>
 
-    <!-- ПОДВАЛ -->
     <footer class="footer">
         <p>&copy; 2024 MyApp. Все права защищены. (Это просто шаблон)</p>
     </footer>
 
-    <!-- БОКОВАЯ ПАНЕЛЬ РЕГИСТРАЦИИ/ВХОДА -->
     <div id="sidebar" class="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -83,13 +72,11 @@
                 <button class="close-sidebar" id="closeSidebar">&times;</button>
             </div>
             
-            <!-- Вкладки: Вход / Регистрация -->
             <div class="auth-tabs">
                 <button class="auth-tab active" id="loginTab">Вход</button>
                 <button class="auth-tab" id="registerTab">Регистрация</button>
             </div>
 
-            <!-- Форма входа -->
             <div id="loginForm" class="auth-form active">
                 <form id="login"  novalidate>
                     <div class="form-group">
@@ -104,7 +91,6 @@
                 </form>
             </div>
 
-            <!-- Форма регистрации -->
             <div id="registerForm" class="auth-form">
                 <form id="register" novalidate>
                     <div class="form-group">
@@ -125,7 +111,6 @@
         </div>
     </div>
 
-    <!-- Затемнение фона при открытой боковой панели -->
     <div id="overlay" class="overlay"></div>
 
     <script src="script.js"></script>

@@ -1,4 +1,4 @@
-// ========== ЛОГИКА ДЛЯ SPA (ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ) ==========
+//переключение сраниц
 const sections = document.querySelectorAll('.page-section');
 const navLinks = document.querySelectorAll('.nav-menu a');
 
@@ -38,7 +38,7 @@ window.addEventListener('popstate', (event) => {
     }
 });
 
-// ========== ЛОГИКА БОКОВОЙ ПАНЕЛИ ==========
+//боковая панель
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const profileBtn = document.getElementById('profileBtn');
@@ -66,7 +66,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ========== ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ВХОДОМ И РЕГИСТРАЦИЕЙ ==========
+//вход и регистрация преключение
 const loginTab = document.getElementById('loginTab');
 const registerTab = document.getElementById('registerTab');
 const loginForm = document.getElementById('loginForm');
@@ -86,30 +86,23 @@ registerTab.addEventListener('click', () => {
     loginForm.classList.remove('active');
 });
 
-// ========== ФУНКЦИИ ДЛЯ РАБОТЫ С ФОРМАМИ ==========
-
 // Функция для показа уведомлений
 function showNotification(message, type = 'success') {
-    // Удаляем существующее уведомление
     const existingNotification = document.querySelector('.notification');
     if (existingNotification) {
         existingNotification.remove();
     }
     
-    // Создаем новое уведомление
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
     
-    // Добавляем в DOM
     document.body.appendChild(notification);
     
-    // Показываем с анимацией
     setTimeout(() => {
         notification.classList.add('show');
     }, 10);
     
-    // Автоматически скрываем через 3 секунды
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => {
@@ -118,24 +111,19 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
-// Функция для отображения ошибок валидации
 function showFieldError(input, message) {
-    // Удаляем существующую ошибку
     const existingError = input.parentNode.querySelector('.field-error');
     if (existingError) {
         existingError.remove();
     }
     
-    // Создаем новую ошибку
     const error = document.createElement('div');
     error.className = 'field-error';
     error.textContent = message;
     
-    // Добавляем после поля ввода
     input.parentNode.appendChild(error);
     input.classList.add('error');
     
-    // Удаляем ошибку при фокусе на поле
     input.addEventListener('focus', function removeError() {
         error.remove();
         input.classList.remove('error');
@@ -143,13 +131,11 @@ function showFieldError(input, message) {
     });
 }
 
-// Функция валидации email
 function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
 
-// Функция валидации пароля
 function validatePassword(password) {
     return password.length >= 6;
 }
@@ -165,7 +151,6 @@ async function sendFormData(action, data) {
             body: JSON.stringify({...data, action})
         });
         
-        // Проверяем, что сервер вернул JSON
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
@@ -191,7 +176,7 @@ async function sendFormData(action, data) {
     }
 }
 
-// ========== ОБРАБОТКА ФОРМЫ ВХОДА ==========
+//Обработка формы входа
 document.getElementById('login').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -214,14 +199,12 @@ document.getElementById('login').addEventListener('submit', async (e) => {
     
     if (!isValid) return;
     
-    // Блокируем кнопку
     const submitBtn = form.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
     
     try {
-        // Отправляем с действием 'login'
         const result = await sendFormData('login', { email, password });
         
         if (result.success) {
@@ -231,7 +214,6 @@ document.getElementById('login').addEventListener('submit', async (e) => {
         }
     } catch (error) {
         if (error.errors) {
-            // Показываем детальные ошибки
             Object.keys(error.errors).forEach(field => {
                 const input = form.querySelector(`[name="${field}"]`) || 
                              form.querySelector(`input[type="${field}"]`);
@@ -249,7 +231,7 @@ document.getElementById('login').addEventListener('submit', async (e) => {
     }
 });
 
-// ========== ОБРАБОТКА ФОРМЫ РЕГИСТРАЦИИ ==========
+//Регистрация
 document.getElementById('register').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -258,7 +240,6 @@ document.getElementById('register').addEventListener('submit', async (e) => {
     const email = form.querySelectorAll('input[type="email"]')[0].value.trim();
     const password = form.querySelector('input[type="password"]').value;
     
-    // Базовая валидация
     let isValid = true;
     
     if (name.length < 2) {
@@ -278,14 +259,12 @@ document.getElementById('register').addEventListener('submit', async (e) => {
     
     if (!isValid) return;
     
-    // Блокируем кнопку
     const submitBtn = form.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
     
     try {
-        // Отправляем с действием 'register'
         const result = await sendFormData('register', { name, email, password });
         
         if (result.success) {
@@ -295,7 +274,6 @@ document.getElementById('register').addEventListener('submit', async (e) => {
         }
     } catch (error) {
         if (error.errors) {
-            // Показываем детальные ошибки валидации
             Object.keys(error.errors).forEach(field => {
                 let input;
                 if (field === 'name') input = form.querySelector('input[type="text"]');
@@ -316,21 +294,16 @@ document.getElementById('register').addEventListener('submit', async (e) => {
     }
 });
 
-// Функция обновления интерфейса после авторизации
 function updateUserInterface(user) {
-    // Меняем кнопку профиля
     const profileBtn = document.getElementById('profileBtn');
     profileBtn.innerHTML = `<span>👤</span> ${user.name || 'Профиль'}`;
     
-    // Можно добавить дополнительные элементы для авторизованного пользователя
-    // Например, ссылку на личный кабинет в меню
     const navMenu = document.querySelector('.nav-menu ul');
     if (!document.getElementById('profile-link')) {
         const profileLink = document.createElement('li');
         profileLink.innerHTML = '<a href="#" data-page="profile" id="profile-link">Личный кабинет</a>';
         navMenu.appendChild(profileLink);
         
-        // Добавляем обработчик для новой ссылки
         document.getElementById('profile-link').addEventListener('click', (e) => {
             e.preventDefault();
             switchPage('profile');
@@ -338,10 +311,10 @@ function updateUserInterface(user) {
     }
 }
 
-//Узнал о и Заменил браузерные сообщени об инвалидации (не убирал стандартные) только для email
+//замена браузерным уведомлениям о валидации
 document.querySelectorAll('input[type="email"]').forEach(input => {
     input.addEventListener('invalid', function(e) {
-        e.preventDefault(); // отключаем стандартное сообщение
+        e.preventDefault();
         
         if (this.validity.valueMissing) {
             showFieldError(this, 'Это поле обязательно для заполнения');
@@ -351,17 +324,12 @@ document.querySelectorAll('input[type="email"]').forEach(input => {
     });
 });
 
-// ========== КНОПКА ВХОДА В HERO-СЕКЦИИ ==========
+//Кнопка входа в hero
 const heroLoginBtn = document.getElementById('heroLoginBtn');
-
 heroLoginBtn.addEventListener('click', () => {
-    // Открываем боковую панель
+
     openSidebar();
-    
-    // Переключаемся на вкладку входа (если вдруг была открыта регистрация)
     loginTab.click();
-    
-    // Прокручиваем к форме входа
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
