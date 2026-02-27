@@ -355,18 +355,15 @@ function closeSettingsFunc() {
 settingsBtn.addEventListener('click', openSettings);
 closeSettings.addEventListener('click', closeSettingsFunc);
 
-// Переключение тем
 const themeOptions = document.querySelectorAll('.theme-option');
 const body = document.body;
 
-// Загрузка сохраненной темы
 const savedTheme = localStorage.getItem('theme') || 'default';
 body.className = `theme-${savedTheme}`;
 
 themeOptions.forEach(option => {
     if (option.dataset.theme === savedTheme) {
         option.classList.add('active');
-        option.querySelector('.theme-check').textContent = '✓';
     }
     
     option.addEventListener('click', function() {
@@ -375,10 +372,8 @@ themeOptions.forEach(option => {
         // Обновление активного класса
         themeOptions.forEach(opt => {
             opt.classList.remove('active');
-            opt.querySelector('.theme-check').textContent = '';
         });
         this.classList.add('active');
-        this.querySelector('.theme-check').textContent = '✓';
         
         // Применение темы
         body.className = `theme-${theme}`;
@@ -386,13 +381,11 @@ themeOptions.forEach(option => {
     });
 });
 
-// Закрытие настроек при клике на оверлей (обновите существующий обработчик)
 overlay.addEventListener('click', function() {
     closeSidebarFunc();
     closeSettingsFunc();
 });
 
-// Обновление Escape для обеих панелей
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (sidebar.classList.contains('active')) {

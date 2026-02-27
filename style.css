@@ -804,9 +804,3 @@ input.error:focus {
     color: white;
     border-color: var(--primary-dark);
 }
-
-.theme-check {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-}
