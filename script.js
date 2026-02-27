@@ -140,7 +140,7 @@ function validatePassword(password) {
     return password.length >= 6;
 }
 
-// Функция отправки данных на сервер
+//функция отправки данных на сервер
 async function sendFormData(action, data) {
     try {
         const response = await fetch('/api.php', {
@@ -176,7 +176,7 @@ async function sendFormData(action, data) {
     }
 }
 
-//Обработка формы входа
+//обработка формы входа
 document.getElementById('login').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -184,7 +184,6 @@ document.getElementById('login').addEventListener('submit', async (e) => {
     const email = form.querySelector('input[type="email"]').value.trim();
     const password = form.querySelector('input[type="password"]').value;
     
-    // Валидация
     let isValid = true;
     
     if (!validateEmail(email)) {
@@ -231,7 +230,7 @@ document.getElementById('login').addEventListener('submit', async (e) => {
     }
 });
 
-//Регистрация
+//регистрация
 document.getElementById('register').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -324,7 +323,7 @@ document.querySelectorAll('input[type="email"]').forEach(input => {
     });
 });
 
-//Кнопка входа в hero
+//кнопка входа в hero
 const heroLoginBtn = document.getElementById('heroLoginBtn');
 heroLoginBtn.addEventListener('click', () => {
 
