@@ -74,6 +74,74 @@
                 </div>
             </div>
         </section>
+
+        <section id="cows-search-section" class="cows-search-section" style="display: none;">
+            <div class="cows-search-container">
+                <div class="cows-search-header">
+                    <h2>Поиск коров</h2>
+                </div>
+                
+                <div class="search-cow-input-wrapper">
+                    <label for="cow-search-input">Поиск коровы:</label>
+                    <input type="text" id="cow-search-input" class="cow-search-input" placeholder="Введите номер или имя коровы...">
+                </div>
+                
+                <div class="search-type-selector">
+                    <label>Искать по:</label>
+                    <div class="search-type-options">
+                        <label class="search-type-option">
+                            <input type="radio" name="searchType" value="number" checked> по номеру
+                        </label>
+                        <label class="search-type-option">
+                            <input type="radio" name="searchType" value="name"> по имени
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="herd-input-wrapper">
+                    <label for="herd-input">Стадо:</label>
+                    <input type="text" id="herd-input" class="herd-input" placeholder="Введите номер стада...">
+                </div>
+                
+                <div class="search-actions">
+                    <button class="search-btn-cow" id="searchCowBtn">Вывести</button>
+                    <button class="search-all-btn" id="searchAllCowBtn">Вывести всё</button>
+                </div>
+                
+                <div class="cows-table-wrapper">
+                    <table class="cows-table">
+                        <thead>
+                            <tr>
+                                <th>Номер животного</th>
+                                <th>Дата рождения</th>
+                                <th>Дата выбытия</th>
+                                <th>Текущая лактация</th>
+                                <th>Дата начала тек. лактации</th>
+                                <th>Дни в доении</th>
+                                <th>Статус</th>
+                                <th>Дата последнего осеменения</th>
+                                <th>Дата успешного осеменения</th>
+                                <th>Дни стельности</th>
+                                <th>Дата запуска (сухость)</th>
+                                <th>Дата ожидаемого запуска</th>
+                                <th>Дата ожидаемого отела</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cows-table-body">
+                            <tr>
+                                <td colspan="13" class="table-empty-message">Нет данных для отображения</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button class="pagination-btn" id="prevPage" disabled>&laquo; Предыдущая</button>
+                    <span class="pagination-info" id="paginationInfo">Страница 1 из 1</span>
+                    <button class="pagination-btn" id="nextPage" disabled>Следующая &raquo;</button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div id="profileSidebar" class="sidebar">

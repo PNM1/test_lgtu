@@ -100,3 +100,45 @@ window.addEventListener('load', function() {
         forecastSection.style.display = 'block';
     }
 });
+
+// поиск коров
+document.addEventListener('DOMContentLoaded', function() {
+    const findCowSubmenuBtn = document.querySelector('.submenu-btn');
+    
+    if (findCowSubmenuBtn) {
+        findCowSubmenuBtn.addEventListener('click', function() {
+            const forecastSection = document.getElementById('forecast-section');
+            if (forecastSection) {
+                forecastSection.style.display = 'none';
+            }
+            
+            const cowsSearchSection = document.getElementById('cows-search-section');
+            if (cowsSearchSection) {
+                cowsSearchSection.style.display = 'block';
+            }
+            
+            if (typeof closeMenuPanelFunc === 'function') {
+                closeMenuPanelFunc();
+            }
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.getElementById('searchCowBtn');
+    const searchAllBtn = document.getElementById('searchAllCowBtn');
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            // Здесь будет функционал поиска
+            console.log('Поиск коровы');
+        });
+    }
+    
+    if (searchAllBtn) {
+        searchAllBtn.addEventListener('click', function() {
+            // Здесь будет функционал вывода всех
+            console.log('Вывести всех коров');
+        });
+    }
+});
