@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="forecast.css">
 </head>
+
 <body>
     <header class="header">
         <div class="header-container">
@@ -31,7 +33,7 @@
 
     <main class="main-content">
         <section id="forecast-section" class="forecast-section" style="display: none;">
-    
+
             <div class="forecast-container">
                 <div class="forecast-controls">
                     <div class="herd-selector">
@@ -44,32 +46,34 @@
                             <option value="4">Заглушка</option>
                         </select>
                     </div>
-    
+
                     <div class="herd-search">
                         <label for="herd-search-input">Или введите номер/название:</label>
                         <div class="search-input-wrapper">
-                            <input type="text" id="herd-search-input" class="herd-search-input" placeholder="Например: Стадо №1 или 1">
+                            <input type="text" id="herd-search-input" class="herd-search-input"
+                                placeholder="Например: Стадо №1 или 1">
                             <button class="search-btn">Поиск</button>
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="forecast-chart">
                     <div class="chart-placeholder">
                         <div class="chart-text">График прогноза</div>
                         <div class="chart-mock">
-                            
+
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="forecast-result">
                     <div class="result-header">
                         <h3>Результат прогноза</h3>
                         <span class="result-date">февраль 2026</span>
                     </div>
                     <div class="result-content">
-                        <textarea class="result-textarea" readonly placeholder="Здесь появится результат прогноза...">Какой-то вывод</textarea>
+                        <textarea class="result-textarea" readonly
+                            placeholder="Здесь появится результат прогноза...">Какой-то вывод</textarea>
                     </div>
                 </div>
             </div>
@@ -80,12 +84,13 @@
                 <div class="cows-search-header">
                     <h2>Поиск коров</h2>
                 </div>
-                
+
                 <div class="search-cow-input-wrapper">
                     <label for="cow-search-input">Поиск коровы:</label>
-                    <input type="text" id="cow-search-input" class="cow-search-input" placeholder="Введите номер коровы...">
+                    <input type="text" id="cow-search-input" class="cow-search-input"
+                        placeholder="Введите номер коровы...">
                 </div>
-                
+
                 <div class="search-type-selector">
                     <label>Искать по:</label>
                     <div class="search-type-options">
@@ -97,17 +102,18 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="herd-input-wrapper">
                     <label for="herd-input">Стадо:</label>
-                    <input type="text" id="herd-input" class="herd-input" placeholder="Введите название или номер стада...">
+                    <input type="text" id="herd-input" class="herd-input"
+                        placeholder="Введите название или номер стада...">
                 </div>
-                
+
                 <div class="search-actions">
                     <button class="search-btn-cow" id="searchCowBtn">Вывести</button>
                     <button class="search-all-btn" id="searchAllCowBtn">Вывести всё</button>
                 </div>
-                
+
                 <div class="cows-table-wrapper">
                     <table class="cows-table">
                         <thead>
@@ -139,15 +145,153 @@
                 <div class="pagination-controls">
                     <div class="rows-per-page">
                         <label for="rowsPerPageInput">Записей на страницу:</label>
-                        <input type="number" id="rowsPerPageInput" class="rows-per-page-input" min="1" max="100" value="5">
+                        <input type="number" id="rowsPerPageInput" class="rows-per-page-input" min="1" max="100"
+                            value="5">
                     </div>
-                <div class="pagination">
-                    <button class="pagination-btn" id="prevPage" disabled>&laquo; Предыдущая</button>
-                    <span class="pagination-info" id="paginationInfo">Страница 1 из 1</span>
-                    <button class="pagination-btn" id="nextPage" disabled>Следующая &raquo;</button>
+                    <div class="cows-actions">
+                        <button class="cows-action-btn" id="addCowBtn">
+                            <span>+</span> Добавить корову
+                        </button>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prevPage" disabled>&laquo; Предыдущая</button>
+                        <span class="pagination-info" id="paginationInfo">Страница 1 из 1</span>
+                        <button class="pagination-btn" id="nextPage" disabled>Следующая &raquo;</button>
+                    </div>
+                </div>
+        </section>
+
+        <section id="user-registration-section" class="user-registration-section" style="display: none;">
+            <div class="registration-container">
+                <div class="registration-header">
+                    <h2>Регистрация нового пользователя</h2>
+                </div>
+
+                <div id="registerForm" class="auth-form active">
+                    <form id="register" novalidate>
+                        <div class="form-group">
+                            <label>Имя</label>
+                            <input type="text" placeholder="Иван Иванов" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Пароль</label>
+                            <input type="password" placeholder="Придумайте пароль" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                    </form>
                 </div>
             </div>
         </section>
+        <section id="user-password-section" class="user-password-section" style="display: none;">
+            <div class="password-container">
+                <div class="password-header">
+                    <h2>Смена пароля пользователя</h2>
+                </div>
+
+                <div id="passwordForm" class="password-form active">
+                    <form id="changePassword" novalidate>
+                        <div class="form-group">
+                            <label>Email пользователя</label>
+                            <input type="email" id="password-email" placeholder="email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Новый пароль</label>
+                            <input type="password" id="new-password" placeholder="Введите новый пароль" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Сменить пароль</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="herds-section" class="herds-section" style="display: none;">
+            <div class="herds-container">
+                <div class="herds-header">
+                    <h2>Управление стадами</h2>
+                </div>
+
+                <div class="herds-actions">
+                    <button class="herds-action-btn" id="addHerdBtn">
+                        <span>+</span> Добавить стадо
+                    </button>
+                </div>
+
+                <div class="herds-table-wrapper">
+                    <table class="herds-table">
+                        <thead>
+                            <tr>
+                                <th> </th>
+                                <th>ID</th>
+                                <th>Название</th>
+                                <th>Краткое описание</th>
+                                <th>Дата загрузки</th>
+                            </tr>
+                        </thead>
+                        <tbody id="herds-table-body">
+                            <tr>
+                                <td colspan="5" class="table-empty-message">Нет данных для отображения</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-controls">
+                    <div class="rows-per-page">
+                        <label for="herdsRowsPerPageInput">Записей на страницу:</label>
+                        <input type="number" id="herdsRowsPerPageInput" class="rows-per-page-input" min="1" max="100"
+                            value="5">
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="herdsPrevPage" disabled>&laquo; Предыдущая</button>
+                        <span class="pagination-info" id="herdsPaginationInfo">Страница 1 из 1</span>
+                        <button class="pagination-btn" id="herdsNextPage" disabled>Следующая &raquo;</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="history-section" class="history-section" style="display: none;">
+            <div class="history-container">
+                <div class="history-header">
+                    <h2>История запросов</h2>
+                </div>
+        
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Дата запроса</th>
+                                <th>На какую дату</th>
+                                <th>Название сценария</th>
+                                <th>Краткий итог</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="4" class="table-empty-message">Нет данных для отображения</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        
+                <div class="pagination-controls">
+                    <div class="rows-per-page">
+                        <label for="historyRowsPerPageInput">Записей на страницу:</label>
+                        <input type="number" id="historyRowsPerPageInput" class="rows-per-page-input" min="1" max="100" value="5">
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="historyPrevPage" disabled>&laquo; Предыдущая</button>
+                        <span class="pagination-info" id="historyPaginationInfo">Страница 1 из 1</span>
+                        <button class="pagination-btn" id="historyNextPage" disabled>Следующая &raquo;</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
     </main>
 
     <div id="profileSidebar" class="sidebar">
@@ -156,9 +300,21 @@
                 <h2>Профиль</h2>
                 <button class="close-sidebar" id="closeProfileSidebar">&times;</button>
             </div>
-            
-            <div class="profile-empty">
-                <div class="profile-empty-icon">👤</div>
+
+            <div class="profile-history">
+                <h3 class="profile-history-title">Последние запросы</h3>
+                <table class="profile-history-table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Сценарий</th>
+                            <th>Итог</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profile-history-body">
+                        <!-- Данные подставятся из JS -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -169,18 +325,18 @@
                 <h2>Настройки</h2>
                 <button class="close-sidebar" id="closeSettings">&times;</button>
             </div>
-            
+
             <div class="settings-content">
                 <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Выберите тему:</h3>
-                
+
                 <div class="theme-option" data-theme="default">
                     <span>Стандартная</span>
                 </div>
-                
+
                 <div class="theme-option" data-theme="light">
                     <span>Светлая</span>
                 </div>
-                
+
                 <div class="theme-option" data-theme="dark">
                     <span>Тёмная</span>
                 </div>
@@ -194,7 +350,7 @@
                 <h2>Меню</h2>
                 <button class="close-sidebar" id="closeMenu">&times;</button>
             </div>
-            
+
             <div class="menu-content">
                 <div class="menu-item">Прогноз</div>
                 <div class="menu-item">История</div>
@@ -222,41 +378,41 @@
                 <h2>Редактирование коровы</h2>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
-            
+
             <div class="modal-body">
                 <form id="editCowForm">
                     <input type="hidden" id="editCowId">
-                    
+
                     <div class="form-group">
                         <label>Номер животного</label>
                         <input type="text" id="editCowNumber" class="modal-input" placeholder="Номер животного">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата рождения</label>
                         <input type="text" id="editBirthDate" class="modal-input" placeholder="ДД.ММ.ГГГГ">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата выбытия</label>
                         <input type="text" id="editDepartureDate" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Текущая лактация</label>
                         <input type="text" id="editCurrentLactation" class="modal-input" placeholder="Например: 3">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата начала тек. лактации</label>
                         <input type="text" id="editLactationStart" class="modal-input" placeholder="ДД.ММ.ГГГГ">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дни в доении</label>
                         <input type="text" id="editDaysInMilk" class="modal-input" placeholder="Например: 48">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Статус</label>
                         <select id="editStatus" class="modal-select">
@@ -265,32 +421,33 @@
                             <option value="Сухостой">Сухостой</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата последнего осеменения</label>
                         <input type="text" id="editLastInsemination" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата успешного осеменения</label>
-                        <input type="text" id="editSuccessfulInsemination" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
+                        <input type="text" id="editSuccessfulInsemination" class="modal-input"
+                            placeholder="ДД.ММ.ГГГГ или -">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дни стельности</label>
                         <input type="text" id="editPregnancyDays" class="modal-input" placeholder="Например: 23 или -">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата запуска (сухость)</label>
                         <input type="text" id="editDryDate" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата ожидаемого запуска</label>
                         <input type="text" id="editExpectedDryDate" class="modal-input" placeholder="ДД.ММ.ГГГГ">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Дата ожидаемого отела</label>
                         <input type="text" id="editExpectedCalvingDate" class="modal-input" placeholder="ДД.ММ.ГГГГ">
@@ -300,14 +457,53 @@
                         <label>Номер стада</label>
                         <input type="text" id="editHerdNumber" class="modal-input" placeholder="Номер стада">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Название стада</label>
                         <input type="text" id="editHerdName" class="modal-input" placeholder="Название стада">
                     </div>
                 </form>
             </div>
-            
+
+            <div id="herdModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="herdModalTitle">Добавление стада</h2>
+                        <button class="close-modal" id="closeHerdModal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="herdForm">
+                            <input type="hidden" id="herdId">
+
+                            <div class="form-group">
+                                <label>Название стада <span style="color: #CD5C5C;">*</span></label>
+                                <input type="text" id="herdName" class="modal-input"
+                                    placeholder="Введите название стада" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Краткое описание</label>
+                                <textarea id="herdDescription" class="modal-input"
+                                    placeholder="Введите краткое описание стада" rows="3"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Дата загрузки</label>
+                                <input type="text" id="herdDate" class="modal-input" placeholder="ДД.ММ.ГГГГ"
+                                    value="16.11.2024" readonly>
+                                <small style="color: #999; margin-left: 1rem;">Заполняется автоматически</small>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="modal-btn modal-btn-cancel" id="cancelHerdModalBtn">Отмена</button>
+                        <button class="modal-btn modal-btn-save" id="saveHerdBtn">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-cancel" id="cancelModalBtn">Отмена</button>
                 <button class="modal-btn modal-btn-save" id="saveCowBtn">Сохранить</button>
@@ -320,4 +516,5 @@
     <script src="settings.js"></script>
     <script src="dashboard.js"></script>
 </body>
+
 </html>
