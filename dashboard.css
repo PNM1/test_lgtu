@@ -230,3 +230,28 @@
     transform: translateX(5px);
     color: var(--primary-dark);
 }
+
+#menuSidebar {
+    right: auto;
+    left: -33.333%; 
+    border-left: none;
+    border-right: 8px solid var(--primary); 
+}
+
+#menuSidebar.active {
+    left: 0;
+    right: auto;
+}
+
+@media (max-width: 768px) {
+    #menuSidebar {
+        left: -100%;
+        width: 100%;
+        border-right: 8px solid var(--primary);
+        border-left: none;
+    }
+    
+    #menuSidebar.active {
+        left: 0;
+    }
+}

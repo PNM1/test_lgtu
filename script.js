@@ -61,9 +61,19 @@ closeSidebar.addEventListener('click', closeSidebarFunc);
 overlay.addEventListener('click', closeSidebarFunc);
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-        closeSidebarFunc();
+    if (e.key === 'Escape') {
+        if (sidebar.classList.contains('active')) {
+            closeSidebarFunc();
+        }
+        if (settingsPanel.classList.contains('active')) {
+            closeSettingsPanelFunc();
+        }
     }
+});
+
+overlay.addEventListener('click', function() {
+    closeSidebarFunc();
+    closeSettingsPanelFunc();
 });
 
 //вход и регистрация преключение

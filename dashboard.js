@@ -24,31 +24,6 @@ if (closeProfileSidebar) {
     closeProfileSidebar.addEventListener('click', closeProfile);
 }
 
-// Открытие настроек
-const settingsPanel = document.getElementById('settingsSidebar');
-const settingsButton = document.getElementById('settingsBtn');
-const closeSettingsPanel = document.getElementById('closeSettings');
-
-function openSettingsPanel() {
-    settingsPanel.classList.add('active');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeSettingsPanelFunc() {
-    settingsPanel.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-if (settingsButton) {
-    settingsButton.addEventListener('click', openSettingsPanel);
-}
-
-if (closeSettingsPanel) {
-    closeSettingsPanel.addEventListener('click', closeSettingsPanelFunc);
-}
-
 // Открытие меню
 const menuPanel = document.getElementById('menuSidebar');
 const menuButton = document.getElementById('menuBtn');
@@ -96,29 +71,6 @@ document.addEventListener('keydown', (e) => {
             closeMenuPanelFunc();
         }
     }
-});
-
-// Темизация
-const themeButtons = document.querySelectorAll('.theme-option');
-const pageBody = document.body;
-
-const currentTheme = localStorage.getItem('theme') || 'default';
-pageBody.className = `theme-${currentTheme}`;
-
-themeButtons.forEach(button => {
-    if (button.dataset.theme === currentTheme) {
-        button.classList.add('active');
-    }
-    
-    button.addEventListener('click', function() {
-        const theme = this.dataset.theme;
-        
-        themeButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-        
-        pageBody.className = `theme-${theme}`;
-        localStorage.setItem('theme', theme);
-    });
 });
 
 // Кнопка входа в пустом профиле

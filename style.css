@@ -409,7 +409,7 @@ body {
     background-size: 60px 60px;
     box-shadow: var(--shadow);
     z-index: 1000;
-    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32,1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32,1);
     overflow-y: auto;
     border-left: 8px solid var(--primary);
 }
