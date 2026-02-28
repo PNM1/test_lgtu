@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет | MyApp</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="menu-container">
+                <button class="menu-btn" id="menuBtn">
+                    <span class="menu-icon">☰</span>
+                    <span>Меню</span>
+                </button>
+            </div>
+
+            <div class="profile-section">
+                <button class="profile-btn" id="profileBtn">
+                    Профиль
+                </button>
+                <button class="settings-btn" id="settingsBtn">
+                    Настройки
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        
+    </main>
+
+    <div id="profileSidebar" class="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h2>Профиль</h2>
+                <button class="close-sidebar" id="closeProfileSidebar">&times;</button>
+            </div>
+            
+            <div class="profile-empty">
+                <div class="profile-empty-icon">👤</div>
+                <div class="profile-empty-title">Профиль пуст</div>
+                <div class="profile-empty-text">Войдите в систему, чтобы увидеть данные профиля</div>
+                <button class="profile-login-btn" id="profileLoginBtn">
+                    <span>🔑</span> Войти
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsSidebar" class="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h2>Настройки</h2>
+                <button class="close-sidebar" id="closeSettings">&times;</button>
+            </div>
+            
+            <div class="settings-content">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Выберите тему:</h3>
+                
+                <div class="theme-option" data-theme="default">
+                    <span>Стандартная</span>
+                </div>
+                
+                <div class="theme-option" data-theme="light">
+                    <span>Светлая</span>
+                </div>
+                
+                <div class="theme-option" data-theme="dark">
+                    <span>Тёмная</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="menuSidebar" class="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h2>Меню</h2>
+                <button class="close-sidebar" id="closeMenu">&times;</button>
+            </div>
+            
+            <div class="menu-content">
+                <div class="menu-item">прогноз</div>
+                <div class="menu-item">история</div>
+                <div class="menu-item">коровы</div>
+                <div class="menu-item">стада</div>
+                <div class="menu-item">пользователи</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <script src="settings.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
