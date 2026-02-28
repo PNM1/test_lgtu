@@ -268,7 +268,7 @@ body {
 
 .main-content {
     flex: 1;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 2rem auto;
     padding: 0 2rem;
     width: 100%;
@@ -460,43 +460,6 @@ body {
     background: var(--primary);
     color: white;
     transform: rotate(90deg);
-}
-
-.auth-tabs {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    border-bottom: 4px dotted var(--primary);
-    padding-bottom: 1rem;
-}
-
-.auth-tab {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #aaa;
-    padding: 0.7rem 0;
-    flex: 1;
-    text-align: center;
-    border-radius: 40px 40px 0 0;
-    transition: all 0.3s;
-    position: relative;
-}
-
-.auth-tab.active {
-    color: var(--primary);
-    background: var(--secondary);
-}
-
-.auth-form {
-    display: none;
-    flex: 1;
-}
-
-.auth-form.active {
-    display: block;
-    animation: mooSlide 0.4s;
 }
 
 @keyframes mooSlide {

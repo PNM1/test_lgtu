@@ -83,24 +83,24 @@
                 
                 <div class="search-cow-input-wrapper">
                     <label for="cow-search-input">Поиск коровы:</label>
-                    <input type="text" id="cow-search-input" class="cow-search-input" placeholder="Введите номер или имя коровы...">
+                    <input type="text" id="cow-search-input" class="cow-search-input" placeholder="Введите номер коровы...">
                 </div>
                 
                 <div class="search-type-selector">
                     <label>Искать по:</label>
                     <div class="search-type-options">
                         <label class="search-type-option">
-                            <input type="radio" name="searchType" value="number" checked> по номеру
+                            <input type="radio" name="searchType" value="number" checked> По номеру
                         </label>
                         <label class="search-type-option">
-                            <input type="radio" name="searchType" value="name"> по имени
+                            <input type="radio" name="searchType" value="name"> По названию
                         </label>
                     </div>
                 </div>
                 
                 <div class="herd-input-wrapper">
                     <label for="herd-input">Стадо:</label>
-                    <input type="text" id="herd-input" class="herd-input" placeholder="Введите номер стада...">
+                    <input type="text" id="herd-input" class="herd-input" placeholder="Введите название или номер стада...">
                 </div>
                 
                 <div class="search-actions">
@@ -112,6 +112,7 @@
                     <table class="cows-table">
                         <thead>
                             <tr>
+                                <th> </th>
                                 <th>Номер животного</th>
                                 <th>Дата рождения</th>
                                 <th>Дата выбытия</th>
@@ -134,7 +135,12 @@
                         </tbody>
                     </table>
                 </div>
-                
+
+                <div class="pagination-controls">
+                    <div class="rows-per-page">
+                        <label for="rowsPerPageInput">Записей на страницу:</label>
+                        <input type="number" id="rowsPerPageInput" class="rows-per-page-input" min="1" max="100" value="5">
+                    </div>
                 <div class="pagination">
                     <button class="pagination-btn" id="prevPage" disabled>&laquo; Предыдущая</button>
                     <span class="pagination-info" id="paginationInfo">Страница 1 из 1</span>
@@ -190,30 +196,121 @@
             </div>
             
             <div class="menu-content">
-                <div class="menu-item">прогноз</div>
-                <div class="menu-item">история</div>
+                <div class="menu-item">Прогноз</div>
+                <div class="menu-item">История</div>
                 <div class="menu-item-with-submenu">
-                    <div class="menu-item main-item">коровы</div>
+                    <div class="menu-item main-item">Животные</div>
                     <div class="submenu">
-                        <button class="submenu-btn">Найти</button>
-                        <button class="submenu-btn">Редактировать</button>
+                        <button class="submenu-btn">Коровы</button>
+                        <button class="submenu-btn">Стада</button>
                     </div>
                 </div>
                 <div class="menu-item-with-submenu">
-                    <div class="menu-item main-item">стада</div>
-                    <div class="submenu">
-                        <button class="submenu-btn">Просмотреть</button>
-                        <button class="submenu-btn">Редактировать</button>
-                    </div>
-                </div>
-                <div class="menu-item-with-submenu">
-                    <div class="menu-item main-item">пользователи</div>
+                    <div class="menu-item main-item">Пользователи</div>
                     <div class="submenu">
                         <button class="submenu-btn">Добавить</button>
                         <button class="submenu-btn">Редактировать</button>
                     </div>
                 </div>
-                <div class="menu-item">пользователи</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editCowModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Редактирование коровы</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="editCowForm">
+                    <input type="hidden" id="editCowId">
+                    
+                    <div class="form-group">
+                        <label>Номер животного</label>
+                        <input type="text" id="editCowNumber" class="modal-input" placeholder="Номер животного">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата рождения</label>
+                        <input type="text" id="editBirthDate" class="modal-input" placeholder="ДД.ММ.ГГГГ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата выбытия</label>
+                        <input type="text" id="editDepartureDate" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Текущая лактация</label>
+                        <input type="text" id="editCurrentLactation" class="modal-input" placeholder="Например: 3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата начала тек. лактации</label>
+                        <input type="text" id="editLactationStart" class="modal-input" placeholder="ДД.ММ.ГГГГ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дни в доении</label>
+                        <input type="text" id="editDaysInMilk" class="modal-input" placeholder="Например: 48">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Статус</label>
+                        <select id="editStatus" class="modal-select">
+                            <option value="Дойная">Дойная</option>
+                            <option value="Выбыла">Выбыла</option>
+                            <option value="Сухостой">Сухостой</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата последнего осеменения</label>
+                        <input type="text" id="editLastInsemination" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата успешного осеменения</label>
+                        <input type="text" id="editSuccessfulInsemination" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дни стельности</label>
+                        <input type="text" id="editPregnancyDays" class="modal-input" placeholder="Например: 23 или -">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата запуска (сухость)</label>
+                        <input type="text" id="editDryDate" class="modal-input" placeholder="ДД.ММ.ГГГГ или -">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата ожидаемого запуска</label>
+                        <input type="text" id="editExpectedDryDate" class="modal-input" placeholder="ДД.ММ.ГГГГ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Дата ожидаемого отела</label>
+                        <input type="text" id="editExpectedCalvingDate" class="modal-input" placeholder="ДД.ММ.ГГГГ">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Номер стада</label>
+                        <input type="text" id="editHerdNumber" class="modal-input" placeholder="Номер стада">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Название стада</label>
+                        <input type="text" id="editHerdName" class="modal-input" placeholder="Название стада">
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" id="cancelModalBtn">Отмена</button>
+                <button class="modal-btn modal-btn-save" id="saveCowBtn">Сохранить</button>
             </div>
         </div>
     </div>

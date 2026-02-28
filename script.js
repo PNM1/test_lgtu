@@ -76,26 +76,6 @@ overlay.addEventListener('click', function() {
     closeSettingsPanelFunc();
 });
 
-//вход и регистрация преключение
-const loginTab = document.getElementById('loginTab');
-const registerTab = document.getElementById('registerTab');
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-
-loginTab.addEventListener('click', () => {
-    loginTab.classList.add('active');
-    registerTab.classList.remove('active');
-    loginForm.classList.add('active');
-    registerForm.classList.remove('active');
-});
-
-registerTab.addEventListener('click', () => {
-    registerTab.classList.add('active');
-    loginTab.classList.remove('active');
-    registerForm.classList.add('active');
-    loginForm.classList.remove('active');
-});
-
 // Функция для показа уведомлений
 function showNotification(message, type = 'success') {
     const existingNotification = document.querySelector('.notification');
@@ -240,68 +220,7 @@ document.getElementById('login').addEventListener('submit', async (e) => {
     }
 });
 
-//регистрация
-document.getElementById('register').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const form = e.target;
-    const name = form.querySelector('input[type="text"]').value.trim();
-    const email = form.querySelectorAll('input[type="email"]')[0].value.trim();
-    const password = form.querySelector('input[type="password"]').value;
-    
-    let isValid = true;
-    
-    if (name.length < 2) {
-        showFieldError(form.querySelector('input[type="text"]'), 'Имя должно содержать минимум 2 символа');
-        isValid = false;
-    }
-    
-    if (!validateEmail(email)) {
-        showFieldError(form.querySelectorAll('input[type="email"]')[0], 'Введите корректный email');
-        isValid = false;
-    }
-    
-    if (!validatePassword(password)) {
-        showFieldError(form.querySelector('input[type="password"]'), 'Пароль должен содержать минимум 6 символов');
-        isValid = false;
-    }
-    
-    if (!isValid) return;
-    
-    const submitBtn = form.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Отправка...';
-    submitBtn.disabled = true;
-    
-    try {
-        const result = await sendFormData('register', { name, email, password });
-        
-        if (result.success) {
-            showNotification('Регистрация успешна!', 'success');
-            loginTab.click();
-            form.reset();
-        }
-    } catch (error) {
-        if (error.errors) {
-            Object.keys(error.errors).forEach(field => {
-                let input;
-                if (field === 'name') input = form.querySelector('input[type="text"]');
-                if (field === 'email') input = form.querySelectorAll('input[type="email"]')[0];
-                if (field === 'password') input = form.querySelector('input[type="password"]');
-                
-                if (input) {
-                    showFieldError(input, error.errors[field]);
-                }
-            });
-            showNotification(error.message, 'error');
-        } else {
-            showNotification(error.message, 'error');
-        }
-    } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-});
+
 
 function updateUserInterface(user) {
     const profileBtn = document.getElementById('profileBtn');
@@ -336,11 +255,5 @@ document.querySelectorAll('input[type="email"]').forEach(input => {
 //кнопка входа в hero
 const heroLoginBtn = document.getElementById('heroLoginBtn');
 heroLoginBtn.addEventListener('click', () => {
-
     openSidebar();
-    loginTab.click();
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
 });
