@@ -41,3 +41,55 @@ themeOptions.forEach(option => {
     });
 });
 
+function showFieldError(input, message) {
+    const existingError = input.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    const error = document.createElement('div');
+    error.className = 'field-error';
+    error.textContent = message;
+    
+    input.parentNode.appendChild(error);
+    input.classList.add('error');
+    
+    input.addEventListener('focus', function removeError() {
+        error.remove();
+        input.classList.remove('error');
+        input.removeEventListener('focus', removeError);
+    });
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function validatePassword(password) {
+    return password.length >= 8;
+}
+
+function showNotification(message, type = 'success') {
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 3000);
+}

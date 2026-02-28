@@ -515,7 +515,7 @@ if (registerFormElement) {
         }
 
         if (!validatePassword(password)) {
-            showFieldError(form.querySelector('input[type="password"]'), 'Пароль должен содержать минимум 6 символов');
+            showFieldError(form.querySelector('input[type="password"]'), 'Пароль должен содержать минимум 8 символов');
             isValid = false;
         }
 
@@ -653,7 +653,7 @@ if (changePasswordForm) {
 
         // Валидация пароля
         if (typeof validatePassword === 'function' && !validatePassword(newPassword)) {
-            showFieldError(document.getElementById('new-password'), 'Пароль должен содержать минимум 6 символов');
+            showFieldError(document.getElementById('new-password'), 'Пароль должен содержать минимум 8 символов');
             isValid = false;
         }
 
