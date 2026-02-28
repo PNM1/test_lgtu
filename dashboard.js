@@ -70,3 +70,33 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+//прогноз
+const menuItems = document.querySelectorAll('.menu-item');
+let forecastMenuItem_element = null;
+
+menuItems.forEach(item => {
+    if (item.textContent.trim().toLowerCase() === 'прогноз') {
+        forecastMenuItem_element = item;
+    }
+});
+
+if (forecastMenuItem_element) {
+    forecastMenuItem_element.addEventListener('click', function() {
+        const forecastSection = document.getElementById('forecast-section');
+        if (forecastSection) {
+            forecastSection.style.display = 'block';
+            
+            if (typeof closeMenuPanelFunc === 'function') {
+                closeMenuPanelFunc();
+            }
+        }
+    });
+}
+
+window.addEventListener('load', function() {
+    const forecastSection = document.getElementById('forecast-section');
+    if (forecastSection) {
+        forecastSection.style.display = 'block';
+    }
+});

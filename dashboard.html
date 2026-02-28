@@ -6,6 +6,7 @@
     <title>Личный кабинет | MyApp</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="forecast.css">
 </head>
 <body>
     <header class="header">
@@ -29,7 +30,50 @@
     </header>
 
     <main class="main-content">
-        
+        <section id="forecast-section" class="forecast-section" style="display: none;">
+    
+            <div class="forecast-container">
+                <div class="forecast-controls">
+                    <div class="herd-selector">
+                        <label for="herd-select">Выберите стадо:</label>
+                        <select id="herd-select" class="herd-select">
+                            <option value="" disabled selected>— Выберите стадо —</option>
+                            <option value="1">Заглушка</option>
+                            <option value="2">Заглушка</option>
+                            <option value="3">Заглушка</option>
+                            <option value="4">Заглушка</option>
+                        </select>
+                    </div>
+    
+                    <div class="herd-search">
+                        <label for="herd-search-input">Или введите номер/название:</label>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="herd-search-input" class="herd-search-input" placeholder="Например: Стадо №1 или 1">
+                            <button class="search-btn">Поиск</button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="forecast-chart">
+                    <div class="chart-placeholder">
+                        <div class="chart-text">График прогноза</div>
+                        <div class="chart-mock">
+                            
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="forecast-result">
+                    <div class="result-header">
+                        <h3>Результат прогноза</h3>
+                        <span class="result-date">февраль 2026</span>
+                    </div>
+                    <div class="result-content">
+                        <textarea class="result-textarea" readonly placeholder="Здесь появится результат прогноза...">Какой-то вывод</textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div id="profileSidebar" class="sidebar">
