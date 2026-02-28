@@ -49,7 +49,6 @@ if (closeMenuPanel) {
     closeMenuPanel.addEventListener('click', closeMenuPanelFunc);
 }
 
-// Закрытие по оверлею
 if (overlay) {
     overlay.addEventListener('click', function() {
         closeProfile();
@@ -58,7 +57,6 @@ if (overlay) {
     });
 }
 
-// Закрытие по Escape
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (profileSidebar && profileSidebar.classList.contains('active')) {
@@ -72,11 +70,3 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
-
-// Кнопка входа в пустом профиле
-const loginButton = document.getElementById('profileLoginBtn');
-if (loginButton) {
-    loginButton.addEventListener('click', () => {
-        window.location.href = 'index.html';
-    });
-}

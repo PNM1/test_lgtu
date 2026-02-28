@@ -41,11 +41,6 @@
             
             <div class="profile-empty">
                 <div class="profile-empty-icon">👤</div>
-                <div class="profile-empty-title">Профиль пуст</div>
-                <div class="profile-empty-text">Войдите в систему, чтобы увидеть данные профиля</div>
-                <button class="profile-login-btn" id="profileLoginBtn">
-                    <span>🔑</span> Войти
-                </button>
             </div>
         </div>
     </div>
@@ -85,8 +80,27 @@
             <div class="menu-content">
                 <div class="menu-item">прогноз</div>
                 <div class="menu-item">история</div>
-                <div class="menu-item">коровы</div>
-                <div class="menu-item">стада</div>
+                <div class="menu-item-with-submenu">
+                    <div class="menu-item main-item">коровы</div>
+                    <div class="submenu">
+                        <button class="submenu-btn">Найти</button>
+                        <button class="submenu-btn">Редактировать</button>
+                    </div>
+                </div>
+                <div class="menu-item-with-submenu">
+                    <div class="menu-item main-item">стада</div>
+                    <div class="submenu">
+                        <button class="submenu-btn">Просмотреть</button>
+                        <button class="submenu-btn">Редактировать</button>
+                    </div>
+                </div>
+                <div class="menu-item-with-submenu">
+                    <div class="menu-item main-item">пользователи</div>
+                    <div class="submenu">
+                        <button class="submenu-btn">Добавить</button>
+                        <button class="submenu-btn">Редактировать</button>
+                    </div>
+                </div>
                 <div class="menu-item">пользователи</div>
             </div>
         </div>

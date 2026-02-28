@@ -1,4 +1,3 @@
-// Настройки боковая панель
 const settingsPanel = document.getElementById('settingsSidebar');
 const settingsButton = document.getElementById('settingsBtn');
 const closeSettingsPanel = document.getElementById('closeSettings');
