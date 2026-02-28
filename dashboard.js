@@ -1,8 +1,25 @@
-// Открытие профиля
 const profileSidebar = document.getElementById('profileSidebar');
 const profileBtn = document.getElementById('profileBtn');
 const closeProfileSidebar = document.getElementById('closeProfileSidebar');
 const overlay = document.getElementById('overlay');
+
+function hideAllSections() {
+    const sections = [
+        'forecast-section',
+        'cows-search-section',
+        'user-registration-section',
+        'user-password-section',
+        'herds-section',
+        'history-section'
+    ];
+    
+    sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+            section.style.display = 'none';
+        }
+    });
+}
 
 function openProfile() {
     profileSidebar.classList.add('active');
@@ -71,56 +88,10 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-//прогноз
-const menuItems = document.querySelectorAll('.menu-item');
-let forecastMenuItem_element = null;
-
-menuItems.forEach(item => {
-    if (item.textContent.trim().toLowerCase() === 'прогноз') {
-        forecastMenuItem_element = item;
-    }
-});
-
-if (forecastMenuItem_element) {
-    forecastMenuItem_element.addEventListener('click', function () {
-        const forecastSection = document.getElementById('forecast-section');
-        if (forecastSection) {
-            forecastSection.style.display = 'block';
-
-            if (typeof closeMenuPanelFunc === 'function') {
-                closeMenuPanelFunc();
-            }
-        }
-    });
-}
-
 window.addEventListener('load', function () {
     const forecastSection = document.getElementById('forecast-section');
     if (forecastSection) {
         forecastSection.style.display = 'block';
-    }
-});
-
-// поиск коров
-document.addEventListener('DOMContentLoaded', function () {
-    const findCowSubmenuBtn = document.querySelector('.submenu-btn');
-
-    if (findCowSubmenuBtn) {
-        findCowSubmenuBtn.addEventListener('click', function () {
-            const forecastSection = document.getElementById('forecast-section');
-            if (forecastSection) {
-                forecastSection.style.display = 'none';
-            }
-
-            const cowsSearchSection = document.getElementById('cows-search-section');
-            if (cowsSearchSection) {
-                cowsSearchSection.style.display = 'block';
-            }
-
-            if (typeof closeMenuPanelFunc === 'function') {
-                closeMenuPanelFunc();
-            }
-        });
     }
 });
 
@@ -312,31 +283,6 @@ function showAllCows() {
 
 // Инициализация обработчиков событий
 document.addEventListener('DOMContentLoaded', function () {
-    // Поиск коров
-    const findCowSubmenuBtn = document.querySelector('.menu-item-with-submenu .submenu-btn:first-child');
-
-    if (findCowSubmenuBtn) {
-        findCowSubmenuBtn.addEventListener('click', function () {
-            // Скрываем секцию прогноза
-            const forecastSection = document.getElementById('forecast-section');
-            if (forecastSection) {
-                forecastSection.style.display = 'none';
-            }
-
-            // Показываем секцию поиска коров
-            const cowsSearchSection = document.getElementById('cows-search-section');
-            if (cowsSearchSection) {
-                cowsSearchSection.style.display = 'block';
-                // Отображаем все данные при открытии
-                showAllCows();
-            }
-
-            // Закрываем меню
-            if (typeof closeMenuPanelFunc === 'function') {
-                closeMenuPanelFunc();
-            }
-        });
-    }
 
     // Кнопки пагинации
     const prevBtn = document.getElementById('prevPage');
@@ -982,39 +928,6 @@ function saveHerd() {
 
 // Инициализация обработчиков для стад
 document.addEventListener('DOMContentLoaded', function () {
-    // Кнопка "Стада" в подменю Животные
-    const herdsSubmenuBtn = document.querySelectorAll('.submenu-btn')[1]; // Вторая кнопка в подменю Животные (Стада)
-
-    if (herdsSubmenuBtn) {
-        herdsSubmenuBtn.addEventListener('click', function () {
-            // Скрываем другие секции
-            const forecastSection = document.getElementById('forecast-section');
-            const cowsSearchSection = document.getElementById('cows-search-section');
-            const userRegistrationSection = document.getElementById('user-registration-section');
-            const userPasswordSection = document.getElementById('user-password-section');
-
-            if (forecastSection) forecastSection.style.display = 'none';
-            if (cowsSearchSection) cowsSearchSection.style.display = 'none';
-            if (userRegistrationSection) userRegistrationSection.style.display = 'none';
-            if (userPasswordSection) userPasswordSection.style.display = 'none';
-
-            // Показываем секцию стад
-            const herdsSection = document.getElementById('herds-section');
-            if (herdsSection) {
-                herdsSection.style.display = 'block';
-                // Отображаем все данные при открытии
-                filteredHerdsData = [...herdsData];
-                currentHerdsPage = 1;
-                displayHerdsTable();
-            }
-
-            // Закрываем меню
-            if (typeof closeMenuPanelFunc === 'function') {
-                closeMenuPanelFunc();
-            }
-        });
-    }
-
     // Кнопка добавления стада
     const addHerdBtn = document.getElementById('addHerdBtn');
     if (addHerdBtn) {
@@ -1074,44 +987,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-
-    const historyMenuItem = document.querySelector('.menu-item:not(.main-item)'); // Первый .menu-item это "Прогноз", второй - "История"
-    const menuItems = document.querySelectorAll('.menu-content > .menu-item');
-
-    if (menuItems.length >= 2) {
-        const historyItem = menuItems[1]; // Второй элемент - История
-        if (historyItem && historyItem.textContent.trim() === 'История') {
-            historyItem.addEventListener('click', function () {
-                // Скрываем другие секции
-                const forecastSection = document.getElementById('forecast-section');
-                const cowsSearchSection = document.getElementById('cows-search-section');
-                const userRegistrationSection = document.getElementById('user-registration-section');
-                const userPasswordSection = document.getElementById('user-password-section');
-                const herdsSection = document.getElementById('herds-section');
-
-                if (forecastSection) forecastSection.style.display = 'none';
-                if (cowsSearchSection) cowsSearchSection.style.display = 'none';
-                if (userRegistrationSection) userRegistrationSection.style.display = 'none';
-                if (userPasswordSection) userPasswordSection.style.display = 'none';
-                if (herdsSection) herdsSection.style.display = 'none';
-
-                // Показываем секцию истории
-                const historySection = document.getElementById('history-section');
-                if (historySection) {
-                    historySection.style.display = 'block';
-                    // Отображаем все данные при открытии
-                    filteredHistoryData = [...historyData];
-                    currentHistoryPage = 1;
-                    displayHistoryTable();
-                }
-
-                // Закрываем меню
-                if (typeof closeMenuPanelFunc === 'function') {
-                    closeMenuPanelFunc();
-                }
-            });
-        }
-    }
 
     // Кнопки пагинации для истории
     const historyPrevBtn = document.getElementById('historyPrevPage');
@@ -1302,7 +1177,131 @@ function updateProfileHistory() {
     }
 }
 
-// Вызываем при загрузке страницы
+// Для пункта "Прогноз"
+document.addEventListener('DOMContentLoaded', function() {
+    const menuItems = document.querySelectorAll('.menu-content > .menu-item');
+    
+    if (menuItems.length >= 1) {
+        const forecastItem = menuItems[0];
+        if (forecastItem && forecastItem.textContent.trim() === 'Прогноз') {
+            forecastItem.addEventListener('click', function() {
+                hideAllSections();
+                const forecastSection = document.getElementById('forecast-section');
+                if (forecastSection) {
+                    forecastSection.style.display = 'block';
+                }
+                if (typeof closeMenuPanelFunc === 'function') {
+                    closeMenuPanelFunc();
+                }
+            });
+        }
+    }
+});
+
+// Для пункта "История"
+document.addEventListener('DOMContentLoaded', function() {
+    const menuItems = document.querySelectorAll('.menu-content > .menu-item');
+    
+    if (menuItems.length >= 2) {
+        const historyItem = menuItems[1];
+        if (historyItem && historyItem.textContent.trim() === 'История') {
+            historyItem.addEventListener('click', function() {
+                hideAllSections();
+                const historySection = document.getElementById('history-section');
+                if (historySection) {
+                    historySection.style.display = 'block';
+                    filteredHistoryData = [...historyData];
+                    currentHistoryPage = 1;
+                    displayHistoryTable();
+                }
+                if (typeof closeMenuPanelFunc === 'function') {
+                    closeMenuPanelFunc();
+                }
+            });
+        }
+    }
+});
+
+// Для подменю "Животные -> Коровы"
+document.addEventListener('DOMContentLoaded', function() {
+    const findCowSubmenuBtn = document.querySelector('.menu-item-with-submenu .submenu-btn:first-child');
+    
+    if (findCowSubmenuBtn) {
+        findCowSubmenuBtn.addEventListener('click', function() {
+            hideAllSections();
+            const cowsSearchSection = document.getElementById('cows-search-section');
+            if (cowsSearchSection) {
+                cowsSearchSection.style.display = 'block';
+                showAllCows();
+            }
+            if (typeof closeMenuPanelFunc === 'function') {
+                closeMenuPanelFunc();
+            }
+        });
+    }
+});
+
+// Для подменю "Животные -> Стада"
+document.addEventListener('DOMContentLoaded', function() {
+    const herdsSubmenuBtn = document.querySelectorAll('.submenu-btn')[1];
+    
+    if (herdsSubmenuBtn) {
+        herdsSubmenuBtn.addEventListener('click', function() {
+            hideAllSections();
+            const herdsSection = document.getElementById('herds-section');
+            if (herdsSection) {
+                herdsSection.style.display = 'block';
+                filteredHerdsData = [...herdsData];
+                currentHerdsPage = 1;
+                displayHerdsTable();
+            }
+            if (typeof closeMenuPanelFunc === 'function') {
+                closeMenuPanelFunc();
+            }
+        });
+    }
+});
+
+// Для подменю "Пользователи -> Добавить"
+document.addEventListener('DOMContentLoaded', function() {
+    const addUserSubmenuBtn = document.querySelectorAll('.submenu-btn')[2];
+    
+    if (addUserSubmenuBtn) {
+        addUserSubmenuBtn.addEventListener('click', function() {
+            hideAllSections();
+            const userRegistrationSection = document.getElementById('user-registration-section');
+            if (userRegistrationSection) {
+                userRegistrationSection.style.display = 'block';
+            }
+            if (typeof closeMenuPanelFunc === 'function') {
+                closeMenuPanelFunc();
+            }
+        });
+    }
+});
+
+// Для подменю "Пользователи -> Редактировать"
+document.addEventListener('DOMContentLoaded', function() {
+    const editUserSubmenuBtn = document.querySelectorAll('.submenu-btn')[3];
+    
+    if (editUserSubmenuBtn) {
+        editUserSubmenuBtn.addEventListener('click', function() {
+            hideAllSections();
+            const userPasswordSection = document.getElementById('user-password-section');
+            if (userPasswordSection) {
+                userPasswordSection.style.display = 'block';
+                const emailInput = document.getElementById('password-email');
+                const passwordInput = document.getElementById('new-password');
+                if (emailInput) emailInput.value = '';
+                if (passwordInput) passwordInput.value = '';
+            }
+            if (typeof closeMenuPanelFunc === 'function') {
+                closeMenuPanelFunc();
+            }
+        });
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     updateProfileHistory();
 });

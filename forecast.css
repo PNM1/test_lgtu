@@ -38,7 +38,6 @@
     font-size: 1rem;
     background: var(--bg-main, white);
     color: var(--text-dark);
-    cursor: pointer;
     transition: all 0.3s;
     appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238B5A2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -80,14 +79,13 @@
 }
 
 .search-btn {
-    width: 3.5rem;
     background: var(--primary);
     color: white;
     border: none;
     border-radius: 15px;
     font-size: 1.2rem;
-    cursor: pointer;
     transition: all 0.3s;
+    padding: 0 0.4rem;
 }
 
 .search-btn:hover {

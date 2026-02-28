@@ -45,7 +45,6 @@
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--primary);
-    cursor: pointer;
     transition: all 0.3s;
     min-width: 200px;
     display: flex;
@@ -133,7 +132,6 @@
     border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -183,7 +181,6 @@
     align-items: center;
     gap: 0.8rem;
     transition: all 0.3s;
-    cursor: pointer;
 }
 
 .menu-btn:hover {
@@ -210,7 +207,6 @@
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--primary);
-    cursor: pointer;
     transition: all 0.3s;
     width: 100%;
     text-align: left;
@@ -284,7 +280,6 @@
     font-size: 1rem;
     font-weight: 600;
     color: var(--primary);
-    cursor: pointer;
     transition: all 0.3s;
     flex: 1;
     text-align: center;
@@ -378,20 +373,16 @@
 }
 
 .search-type-option {
-    display: flex;
-    align-items: center;
     gap: 0.5rem;
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-dark);
-    cursor: pointer;
 }
 
 .search-type-option input[type="radio"] {
     width: 1.2rem;
     height: 1.2rem;
     accent-color: var(--primary);
-    cursor: pointer;
 }
 
 .search-actions {
@@ -408,7 +399,6 @@
     border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 700;
-    cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -505,7 +495,6 @@
     font-size: 1rem;
     font-weight: 600;
     color: var(--primary);
-    cursor: pointer;
     transition: all 0.3s;
 }
 
@@ -671,7 +660,6 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    cursor: pointer;
     transition: all 0.3s;
     line-height: 1;
 }
@@ -744,7 +732,6 @@
     border-radius: 40px;
     font-size: 1rem;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.3s;
 }
 
@@ -780,7 +767,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.3s;
     color: var(--primary);
     font-size: 1.2rem;
@@ -809,7 +795,6 @@
         padding: 1.5rem;
         width: 95%;
     }
-    
     .modal-header h2 {
         font-size: 1.5rem;
     }
@@ -950,7 +935,6 @@
     padding: 0.8rem 2rem;
     font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -1028,7 +1012,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.3s;
     color: var(--primary);
     font-size: 1.2rem;
@@ -1050,7 +1033,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.3s;
     color: white;
     font-size: 1.2rem;
@@ -1080,7 +1062,6 @@
     padding: 0.8rem 2rem;
     font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
