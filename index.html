@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Прогнозирование дней доения</title>
-    <!-- Добавляем Chart.js для графиков -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -38,10 +36,6 @@
         h2 {
             color: #333;
             margin-bottom: 20px;
-        }
-        h3 {
-            color: #555;
-            margin: 20px 0 15px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -104,7 +98,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
         }
         th, td {
             padding: 12px;
@@ -156,46 +149,6 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .chart-container {
-            position: relative;
-            height: 400px;
-            margin: 30px 0 20px;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 10px;
-        }
-        .chart-title {
-            text-align: center;
-            color: #4a5568;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            font-weight: 500;
-        }
-        .tab-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            background: #edf2f7;
-            color: #4a5568;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .tab-button.active {
-            background: #667eea;
-            color: white;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
         }
     </style>
 </head>
@@ -215,18 +168,27 @@
 
         <!-- Форма прогноза -->
         <div class="card">
-    <h2>📤 Загрузка данных и обучение модели</h2>
-    <div class="form-group">
-        <label for="datasetFile">Выберите CSV файл с историей коров (dataset*.csv):</label>
-        <input type="file" id="datasetFile" accept=".csv" required>
-        <small style="color: #718096;">Файл должен быть в формате CSV с разделителем ';'</small>
-    </div>
-    <button onclick="uploadAndTrain()" id="trainBtn">🚀 Загрузить и обучить модель</button>
-    <div id="trainProgress" style="display: none; margin-top: 15px;">
-        <div class="loader" style="width: 20px; height: 20px; display: inline-block;"></div>
-        <span id="trainStatus">Обучение модели...</span>
-    </div>
-</div>
+            <h2>Параметры прогноза</h2>
+            <form id="predictionForm">
+                <div class="form-group">
+                    <label for="startDate">Начальная дата (ДД.ММ.ГГГГ):</label>
+                    <input type="text" id="startDate" placeholder="01.03.2026" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">Конечная дата (ДД.ММ.ГГГГ):</label>
+                    <input type="text" id="endDate" placeholder="28.02.2027" required>
+                </div>
+                <div class="form-group">
+                    <label for="addCows">Добавить коров:</label>
+                    <input type="number" id="addCows" value="10" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="removeCows">Удалить коров:</label>
+                    <input type="number" id="removeCows" value="0" min="0">
+                </div>
+                <button type="submit">🚀 Запустить прогноз</button>
+            </form>
+        </div>
 
         <!-- Индикатор загрузки -->
         <div id="loader" class="loader" style="display: none;"></div>
@@ -235,36 +197,12 @@
         <div id="results" class="card" style="display: none;">
             <h2>Результаты прогноза</h2>
             <div id="stats" class="stats"></div>
-            
-            <!-- Вкладки для переключения между таблицей и графиком -->
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="switchTab('table')">📋 Таблица</button>
-                <button class="tab-button" onclick="switchTab('chart')">📈 График</button>
-            </div>
-            
-            <!-- Таблица результатов -->
-            <div id="tableTab" class="tab-content active">
-                <div id="resultsTable" class="results"></div>
-            </div>
-            
-            <!-- График результатов -->
-            <div id="chartTab" class="tab-content">
-                <div class="chart-container">
-                    <canvas id="predictionChart"></canvas>
-                </div>
-                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 10px;">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background: #667eea; margin-right: 8px; border-radius: 4px;"></div>
-                        <span>Средние дни доения</span>
-                    </div>
-                </div>
-            </div>
+            <div id="resultsTable" class="results"></div>
         </div>
     </div>
 
     <script>
         const API_BASE = '/api';
-        let chartInstance = null;
 
         async function checkHealth() {
             try {
@@ -336,124 +274,6 @@
             } finally {
                 showLoader(false);
             }
-        }
-
-        function switchTab(tabName) {
-            // Обновляем классы для кнопок
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            if (tabName === 'table') {
-                document.querySelectorAll('.tab-button')[0].classList.add('active');
-                document.getElementById('tableTab').classList.add('active');
-            } else {
-                document.querySelectorAll('.tab-button')[1].classList.add('active');
-                document.getElementById('chartTab').classList.add('active');
-                // При переключении на график обновляем его, если есть данные
-                const resultsDiv = document.getElementById('results');
-                if (resultsDiv.style.display === 'block' && chartInstance) {
-                    // График уже должен быть создан при отображении результатов
-                }
-            }
-        }
-
-        function createChart(data) {
-            const ctx = document.getElementById('predictionChart').getContext('2d');
-            
-            // Уничтожаем предыдущий график, если он существует
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
-
-            // Подготавливаем данные
-            const labels = data.map(item => {
-                const [year, month] = item.month.split('-');
-                return `${month}.${year}`;
-            });
-            
-            const avgDaysData = data.map(item => item.avg_days_in_milk);
-
-            // Создаем новый график
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Средние дни доения',
-                        data: avgDaysData,
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#5a67d8',
-                        pointBorderColor: 'white',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        tension: 0.3,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#f7fafc',
-                            bodyColor: '#e2e8f0',
-                            borderColor: '#667eea',
-                            borderWidth: 1,
-                            padding: 10,
-                            displayColors: false,
-                            callbacks: {
-                                label: function(context) {
-                                    return `Средние дни: ${context.parsed.y.toFixed(2)}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Дни доения',
-                                color: '#4a5568',
-                                font: {
-                                    weight: 'bold'
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            title: {
-                                display: true,
-                                text: 'Месяц',
-                                color: '#4a5568',
-                                font: {
-                                    weight: 'bold'
-                                }
-                            }
-                        }
-                    },
-                    layout: {
-                        padding: {
-                            top: 20,
-                            bottom: 20
-                        }
-                    }
-                }
-            });
         }
 
         document.getElementById('predictionForm').addEventListener('submit', async (e) => {
@@ -553,7 +373,7 @@
                 tableHtml += `
                     <tr>
                         <td>${item.month}</td>
-                        <td><strong>${item.avg_days_in_milk.toFixed(2)}</strong></td>
+                        <td><strong>${item.avg_days_in_milk}</strong></td>
                         <td>${item.total_cows}</td>
                         <td>${item.lactating_cows}</td>
                     </tr>
@@ -564,10 +384,6 @@
 
             document.getElementById('stats').innerHTML = statsHtml;
             document.getElementById('resultsTable').innerHTML = tableHtml;
-            
-            // Создаем график
-            createChart(results);
-            
             document.getElementById('results').style.display = 'block';
         }
 
@@ -610,54 +426,6 @@
         function hideResults() {
             document.getElementById('results').style.display = 'none';
         }
-        async function uploadAndTrain() {
-    const fileInput = document.getElementById('datasetFile');
-    const file = fileInput.files[0];
-    
-    if (!file) {
-        alert('Пожалуйста, выберите файл');
-        return;
-    }
-    
-    // Проверка расширения файла
-    if (!file.name.endsWith('.csv')) {
-        alert('Пожалуйста, выберите CSV файл');
-        return;
-    }
-    
-    const formData = new FormData();
-    formData.append('dataset', file);
-    
-    // Показываем прогресс
-    document.getElementById('trainProgress').style.display = 'block';
-    document.getElementById('trainBtn').disabled = true;
-    
-    try {
-        const response = await fetch(`${API_BASE}/model/train-with-file`, {
-            method: 'POST',
-            body: formData
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            document.getElementById('trainStatus').innerHTML = '✅ Модель успешно обучена!';
-            showMessage(`Модель обучена! Логов: ${data.logs.length}`, 'success');
-            
-            // Обновляем информацию о модели
-            setTimeout(getModelInfo, 1000);
-        } else {
-            document.getElementById('trainStatus').innerHTML = '❌ Ошибка обучения';
-            showError('Ошибка обучения: ' + data.error);
-        }
-    } catch (err) {
-        document.getElementById('trainStatus').innerHTML = '❌ Ошибка';
-        showError('Ошибка загрузки файла: ' + err.message);
-    } finally {
-        document.getElementById('trainBtn').disabled = false;
-    }
-}
-        
         checkHealth();
     </script>
 </body>
