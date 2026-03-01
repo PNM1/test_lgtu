@@ -1311,3 +1311,38 @@ if (profileBtn) {
         setTimeout(updateProfileHistory, 100);
     });
 }
+
+const profileLogoutBtn = document.getElementById('profileLogoutBtn');
+if (profileLogoutBtn) {
+    profileLogoutBtn.addEventListener('click', function() {
+        closeProfile();
+        window.location.href = 'index.html';
+    });
+}
+
+// Обработка удаления коровы
+const deleteCowBtn = document.getElementById('deleteCowBtn');
+if (deleteCowBtn) {
+    deleteCowBtn.addEventListener('click', function() {
+        if (!currentEditCowId) return;
+        
+        if (confirm('Вы уверены, что хотите удалить эту корову?')) {
+            const index = cowsData.findIndex(c => c.id === currentEditCowId);
+            if (index !== -1) {
+                cowsData.splice(index, 1);
+                
+                const filteredIndex = filteredData.findIndex(c => c.id === currentEditCowId);
+                if (filteredIndex !== -1) {
+                    filteredData.splice(filteredIndex, 1);
+                }
+                
+                displayCowTable();
+                closeEditModal();
+                
+                if (typeof showNotification === 'function') {
+                    showNotification('Корова удалена', 'success');
+                }
+            }
+        }
+    });
+}
