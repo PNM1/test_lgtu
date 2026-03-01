@@ -1,11 +1,664 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Прогнозирование дней доения</title>
+    <!-- Добавляем Chart.js для графиков -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #555;
+            margin: 20px 0 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        .error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        .warning {
+            background: #feebc8;
+            color: #7b341e;
+        }
+        .info {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+        .results {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f7fafc;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-label {
+            color: #718096;
+            margin-top: 5px;
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 30px 0 20px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+        .chart-title {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            background: #edf2f7;
+            color: #4a5568;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <p class="mane_text">мы победим мужики</p>
+    <div class="container">
+        <h1>🐄 Прогнозирование средних дней доения</h1>
+
+        <div class="nav-buttons">
+            <button onclick="checkHealth()">🩺 Проверка сервера</button>
+            <button onclick="getModelInfo()">📊 Информация о модели</button>
+            <button onclick="loadExample()">📝 Загрузить пример</button>
+            <button onclick="trainModel()">⚙️ Обучить модель</button>
+        </div>
+
+        <!-- Статус сервера -->
+        <div id="healthStatus" class="card"></div>
+
+        <!-- Форма прогноза -->
+        <div class="card">
+    <h2>📤 Загрузка данных и обучение модели</h2>
+    <div class="form-group">
+        <label for="datasetFile">Выберите CSV файл с историей коров (dataset*.csv):</label>
+        <input type="file" id="datasetFile" accept=".csv" required>
+        <small style="color: #718096;">Файл должен быть в формате CSV с разделителем ';'</small>
+    </div>
+    <button onclick="uploadAndTrain()" id="trainBtn">🚀 Загрузить и обучить модель</button>
+    <div id="trainProgress" style="display: none; margin-top: 15px;">
+        <div class="loader" style="width: 20px; height: 20px; display: inline-block;"></div>
+        <span id="trainStatus">Обучение модели...</span>
+    </div>
+</div>
+
+        <!-- Индикатор загрузки -->
+        <div id="loader" class="loader" style="display: none;"></div>
+
+        <!-- Результаты -->
+        <div id="results" class="card" style="display: none;">
+            <h2>Результаты прогноза</h2>
+            <div id="stats" class="stats"></div>
+            
+            <!-- Вкладки для переключения между таблицей и графиком -->
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('table')">📋 Таблица</button>
+                <button class="tab-button" onclick="switchTab('chart')">📈 График</button>
+            </div>
+            
+            <!-- Таблица результатов -->
+            <div id="tableTab" class="tab-content active">
+                <div id="resultsTable" class="results"></div>
+            </div>
+            
+            <!-- График результатов -->
+            <div id="chartTab" class="tab-content">
+                <div class="chart-container">
+                    <canvas id="predictionChart"></canvas>
+                </div>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 10px;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: #667eea; margin-right: 8px; border-radius: 4px;"></div>
+                        <span>Средние дни доения</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        let chartInstance = null;
+
+        async function checkHealth() {
+            try {
+                const res = await fetch(`${API_BASE}/health`);
+                const data = await res.json();
+                showHealthStatus(data);
+            } catch (err) {
+                showError('Ошибка подключения к серверу');
+            }
+        }
+
+        async function getModelInfo() {
+            try {
+                const res = await fetch(`${API_BASE}/model/info`);
+                const data = await res.json();
+                if (data.success) {
+                    let html = '<div class="status info">';
+                    if (data.currentState) {
+                        html += `
+                            <h3>Текущее состояние стада:</h3>
+                            <p>📅 Дата: ${data.currentState.date}</p>
+                            <p>🐄 Всего коров: ${data.currentState.totalCows}</p>
+                            <p>🥛 Дойных коров: ${data.currentState.lactatingCows}</p>
+                            <p>📊 Средние дни доения: ${data.currentState.avgDaysInMilk}</p>
+                        `;
+                    } else {
+                        html += '<p>Модель существует, но состояние не получено</p>';
+                    }
+                    html += '</div>';
+                    showHealthStatus({ status: 'ok', ...data }, html);
+                }
+            } catch (err) {
+                showError('Ошибка получения информации о модели');
+            }
+        }
+
+        async function loadExample() {
+            try {
+                const res = await fetch(`${API_BASE}/example-input`);
+                const data = await res.json();
+                document.getElementById('startDate').value = data.start_date;
+                document.getElementById('endDate').value = data.end_date;
+                document.getElementById('addCows').value = data.changes.add;
+                document.getElementById('removeCows').value = data.changes.remove;
+                showMessage('Пример загружен', 'success');
+            } catch (err) {
+                showError('Ошибка загрузки примера');
+            }
+        }
+
+        async function trainModel() {
+            if (!confirm('Обучение модели может занять несколько минут. Продолжить?')) {
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const res = await fetch(`${API_BASE}/model/train`, {
+                    method: 'POST'
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showMessage('Модель успешно обучена!', 'success');
+                } else {
+                    showError('Ошибка обучения: ' + data.error);
+                }
+            } catch (err) {
+                showError('Ошибка обучения модели');
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function switchTab(tabName) {
+            // Обновляем классы для кнопок
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (tabName === 'table') {
+                document.querySelectorAll('.tab-button')[0].classList.add('active');
+                document.getElementById('tableTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-button')[1].classList.add('active');
+                document.getElementById('chartTab').classList.add('active');
+                // При переключении на график обновляем его, если есть данные
+                const resultsDiv = document.getElementById('results');
+                if (resultsDiv.style.display === 'block' && chartInstance) {
+                    // График уже должен быть создан при отображении результатов
+                }
+            }
+        }
+
+        function createChart(data) {
+            const ctx = document.getElementById('predictionChart').getContext('2d');
+            
+            // Уничтожаем предыдущий график, если он существует
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            // Подготавливаем данные
+            const labels = data.map(item => {
+                const [year, month] = item.month.split('-');
+                return `${month}.${year}`;
+            });
+            
+            const avgDaysData = data.map(item => item.avg_days_in_milk);
+
+            // Создаем новый график
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Средние дни доения',
+                        data: avgDaysData,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#5a67d8',
+                        pointBorderColor: 'white',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#f7fafc',
+                            bodyColor: '#e2e8f0',
+                            borderColor: '#667eea',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `Средние дни: ${context.parsed.y.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Дни доения',
+                                color: '#4a5568',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Месяц',
+                                color: '#4a5568',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 20
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const addCows = parseInt(document.getElementById('addCows').value) || 0;
+            const removeCows = parseInt(document.getElementById('removeCows').value) || 0;
+
+            // Валидация
+            if (!isValidDate(startDate) || !isValidDate(endDate)) {
+                showError('Неверный формат даты. Используйте ДД.ММ.ГГГГ');
+                return;
+            }
+
+            showLoader(true);
+            hideResults();
+
+            try {
+                const response = await fetch(`${API_BASE}/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        start_date: startDate,
+                        end_date: endDate,
+                        changes: {
+                            add: addCows,
+                            remove: removeCows
+                        }
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data);
+                } else {
+                    showError(data.error || 'Ошибка выполнения прогноза');
+                }
+            } catch (err) {
+                showError('Ошибка подключения к серверу');
+                console.error(err);
+            } finally {
+                showLoader(false);
+            }
+        });
+
+        function isValidDate(dateStr) {
+            const regex = /^\d{2}\.\d{2}\.\d{4}$/;
+            if (!regex.test(dateStr)) return false;
+            
+            const [day, month, year] = dateStr.split('.');
+            const date = new Date(year, month - 1, day);
+            return date.getDate() == day && date.getMonth() == month - 1 && date.getFullYear() == year;
+        }
+
+        function displayResults(data) {
+            const results = data.data;
+            const summary = data.summary;
+
+            let statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-value">${results.length}</div>
+                    <div class="stat-label">Месяцев прогноза</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${summary.avgMean}</div>
+                    <div class="stat-label">Среднее значение</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${summary.avgMin}</div>
+                    <div class="stat-label">Минимум</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${summary.avgMax}</div>
+                    <div class="stat-label">Максимум</div>
+                </div>
+            `;
+
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Месяц</th>
+                            <th>Средние дни доения</th>
+                            <th>Всего коров</th>
+                            <th>Дойных коров</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            results.forEach(item => {
+                tableHtml += `
+                    <tr>
+                        <td>${item.month}</td>
+                        <td><strong>${item.avg_days_in_milk.toFixed(2)}</strong></td>
+                        <td>${item.total_cows}</td>
+                        <td>${item.lactating_cows}</td>
+                    </tr>
+                `;
+            });
+
+            tableHtml += '</tbody></table>';
+
+            document.getElementById('stats').innerHTML = statsHtml;
+            document.getElementById('resultsTable').innerHTML = tableHtml;
+            
+            // Создаем график
+            createChart(results);
+            
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function showHealthStatus(data, customHtml = null) {
+            let html = '<div class="status ' + (data.status === 'ok' ? 'success' : 'error') + '">';
+            if (customHtml) {
+                html += customHtml;
+            } else {
+                html += `
+                    <h3>Статус сервера: ✅ Работает</h3>
+                    <p>Время: ${new Date(data.timestamp).toLocaleString()}</p>
+                    <p>Модель: ${data.modelExists ? '✅ существует' : '❌ не найдена'}</p>
+                    <p>Python скрипт: ${data.pythonScript ? '✅ доступен' : '❌ не найден'}</p>
+                `;
+            }
+            html += '</div>';
+            document.getElementById('healthStatus').innerHTML = html;
+        }
+
+        function showError(message) {
+            document.getElementById('healthStatus').innerHTML = `
+                <div class="status error">
+                    ❌ ${message}
+                </div>
+            `;
+        }
+
+        function showMessage(message, type = 'info') {
+            document.getElementById('healthStatus').innerHTML = `
+                <div class="status ${type}">
+                    ${message}
+                </div>
+            `;
+        }
+
+        function showLoader(show) {
+            document.getElementById('loader').style.display = show ? 'block' : 'none';
+        }
+
+        function hideResults() {
+            document.getElementById('results').style.display = 'none';
+        }
+        async function uploadAndTrain() {
+    const fileInput = document.getElementById('datasetFile');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('Пожалуйста, выберите файл');
+        return;
+    }
+    
+    // Проверка расширения файла
+    if (!file.name.endsWith('.csv')) {
+        alert('Пожалуйста, выберите CSV файл');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('dataset', file);
+    
+    // Показываем прогресс
+    document.getElementById('trainProgress').style.display = 'block';
+    document.getElementById('trainBtn').disabled = true;
+    
+    try {
+        const response = await fetch(`${API_BASE}/model/train-with-file`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.getElementById('trainStatus').innerHTML = '✅ Модель успешно обучена!';
+            showMessage(`Модель обучена! Логов: ${data.logs.length}`, 'success');
+            
+            // Обновляем информацию о модели
+            setTimeout(getModelInfo, 1000);
+        } else {
+            document.getElementById('trainStatus').innerHTML = '❌ Ошибка обучения';
+            showError('Ошибка обучения: ' + data.error);
+        }
+    } catch (err) {
+        document.getElementById('trainStatus').innerHTML = '❌ Ошибка';
+        showError('Ошибка загрузки файла: ' + err.message);
+    } finally {
+        document.getElementById('trainBtn').disabled = false;
+    }
+}
+        
+        checkHealth();
+    </script>
 </body>
 </html>
